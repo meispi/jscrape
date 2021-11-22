@@ -7,6 +7,16 @@ go install github.com/meispi/subjs@latest
 ```
 
 ## How to use
+
+```
+  -all
+        looks for *target* (and not just *.target.*) (default false)
+  -c int
+        number of threads (default 8)
+  -w string
+        Enter your word (e.g. uber)
+```
+
 ```
 $ cat jsfiles.txt | subjs -w <target_name>
 $ echo "https://target.tld/somerandomjsfile.js" | subjs -w <target>

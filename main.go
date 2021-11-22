@@ -36,10 +36,10 @@ func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp){
 func main() {
 	con := flag.Int("c", 8, "number of threads")
 	word := flag.String("w","","Enter your word (e.g. uber)")
+	all := flag.Bool("all",false,"looks for *target* (and not just *.target.*) (default false)")
 	flag.Parse()
 
 	if *word != "" {
-		re := regexp.MustCompile(`[A-Za-z0-9\-\.]*`+*word+`[A-Za-z0-9\.\-]*\.(com|net|network|io|org)[A-Za-z0-9\-\.]*`)
 
 		jobs := make(chan string)
 		resmap := make(map[string]int)
@@ -54,10 +54,22 @@ func main() {
 
 		wg := &sync.WaitGroup{}
 
-		for i := 0; i < *con; i++ {
-			wg.Add(1)
-			go findsubs(jobs, wg, re)
+		if *all {
+			re := regexp.MustCompile(`[A-Za-z0-9\-\.]*`+*word+`[A-Za-z0-9\.\-]*\.(com|net|network|io|org)[A-Za-z0-9\-\.]*`)
+
+			for i := 0; i < *con; i++ {
+				wg.Add(1)
+				go findsubs(jobs, wg, re)
+			}
+		} else {
+			re := regexp.MustCompile(`[A-Za-z0-9\-\.]*\.`+*word+`\.(com|net|network|io|org)[A-Za-z0-9\-\.]*`)
+
+			for i := 0; i < *con; i++ {
+				wg.Add(1)
+				go findsubs(jobs, wg, re)
+			}
 		}
+		
 		wg.Wait()
 
 		for _, subs := range reslist {
