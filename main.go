@@ -12,7 +12,7 @@ import (
 	"sync"
 )
 
-func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp){
+func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp, resmap map[string]int){
 	defer wg.Done()
 	for url := range jobs {
 		res, err := http.Get(url)
@@ -25,12 +25,9 @@ func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp){
 		}
 
 		matches := re.FindAllString(string(data),-1)
-		resmap := make(map[string]int)
+		
 		for _, i := range matches {
 			resmap[i] = 1
-		}
-		for str := range resmap {
-			fmt.Println(str)
 		}
 	}
 }
@@ -41,9 +38,10 @@ func main() {
 	flag.Parse()
 
 	if *word != "" {
-		re := regexp.MustCompile(`[A-Za-z0-9\-\.]*\.`+*word+`[A-Za-z0-9\.\-]*\.(com|net|network|io|org)`)
+		re := regexp.MustCompile(`[A-Za-z0-9\-\.]*\.`+*word+`[A-Za-z0-9\.\-]*\.[A-Za-z0-9\-\.]*`)
 
 		jobs := make(chan string)
+		resmap := make(map[string]int)
 
 		go func () {
 			sc := bufio.NewScanner(os.Stdin)
@@ -57,9 +55,13 @@ func main() {
 
 		for i := 0; i < *con; i++ {
 			wg.Add(1)
-			go findsubs(jobs, wg, re)
+			go findsubs(jobs, wg, re, resmap)
 		}
 		wg.Wait()
+
+		for str := range resmap {
+			fmt.Println(str)
+		}
 	} else {
 		flag.Usage()
 	}
