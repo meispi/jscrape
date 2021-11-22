@@ -12,7 +12,9 @@ import (
 	"sync"
 )
 
-func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp, resmap map[string]int){
+var reslist []string
+
+func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp){
 	defer wg.Done()
 	for url := range jobs {
 		res, err := http.Get(url)
@@ -25,9 +27,8 @@ func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp, resmap ma
 		}
 
 		matches := re.FindAllString(string(data),-1)
-		
 		for _, i := range matches {
-			resmap[i] = 1
+			reslist = append(reslist, i)
 		}
 	}
 }
@@ -55,10 +56,13 @@ func main() {
 
 		for i := 0; i < *con; i++ {
 			wg.Add(1)
-			go findsubs(jobs, wg, re, resmap)
+			go findsubs(jobs, wg, re)
 		}
 		wg.Wait()
 
+		for _, subs := range reslist {
+			resmap[subs] = 1
+		}
 		for str := range resmap {
 			fmt.Println(str)
 		}
