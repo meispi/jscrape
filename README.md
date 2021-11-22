@@ -10,6 +10,10 @@ go install github.com/meispi/subjs@latest
 ```
 cat jsfiles.txt | subjs -w <target_name>
 ```
+OR
+```
+echo "https://target.tld/somerandomjsfile.js" | subjs -w <target>
+```
 
 e.g.:
 `cat jsfiles.txt | subjs -w uber`
