@@ -25,8 +25,12 @@ func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp){
 		}
 
 		matches := re.FindAllString(string(data),-1)
+		resmap := make(map[string]int)
 		for _, i := range matches {
-			fmt.Println(i)
+			resmap[i] = 1
+		}
+		for str := range resmap {
+			fmt.Println(str)
 		}
 	}
 }
