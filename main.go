@@ -38,7 +38,7 @@ func main() {
 	flag.Parse()
 
 	if *word != "" {
-		re := regexp.MustCompile(`[A-Za-z0-9\-\.]*\.`+*word+`[A-Za-z0-9\.\-]*\.[A-Za-z0-9\-\.]*`)
+		re := regexp.MustCompile(`[A-Za-z0-9\-\.]*`+*word+`[A-Za-z0-9\.\-]*\.[A-Za-z0-9\-\.]*`)
 
 		jobs := make(chan string)
 		resmap := make(map[string]int)
