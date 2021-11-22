@@ -41,7 +41,7 @@ func main() {
 	flag.Parse()
 
 	if *word != "" {
-		re := regexp.MustCompile(`[A-Za-z0-9\-\.]*.`+*word+`[A-Za-z0-9\.\-]*\.(com|net|network|io|org)`)
+		re := regexp.MustCompile(`[A-Za-z0-9\-\.]*\.`+*word+`[A-Za-z0-9\.\-]*\.(com|net|network|io|org)`)
 
 		jobs := make(chan string)
 
