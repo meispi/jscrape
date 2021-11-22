@@ -8,11 +8,8 @@ go install github.com/meispi/subjs@latest
 
 ## How to use
 ```
-cat jsfiles.txt | subjs -w <target_name>
-```
-OR
-```
-echo "https://target.tld/somerandomjsfile.js" | subjs -w <target>
+$ cat jsfiles.txt | subjs -w <target_name>
+$ echo "https://target.tld/somerandomjsfile.js" | subjs -w <target>
 ```
 
 e.g.:
