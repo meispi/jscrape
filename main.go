@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"regexp"
@@ -19,11 +18,11 @@ func findsubs(jobs chan string, wg *sync.WaitGroup, re *regexp.Regexp){
 	for url := range jobs {
 		res, err := http.Get(url)
 		if err != nil {
-			log.Println("Failed! : ", err)
+			continue
 		}
 		data, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			log.Print("Error : ", err)
+			continue
 		}
 
 		matches := re.FindAllString(string(data),-1)
