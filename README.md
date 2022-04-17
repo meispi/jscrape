@@ -1,5 +1,5 @@
 # subjs
-A CLI tool written in go to find subdomains from js files.
+A CLI tool written in go to find subdomains and s3 buckets from js files.
 
 ## Installation
 ```
