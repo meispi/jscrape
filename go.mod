@@ -1,3 +1,3 @@
-module github.com/meispi/subjs
+module github.com/meispi/jscrape
 
-go 1.17
+go 1.20

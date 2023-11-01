@@ -1,9 +1,9 @@
-# subjs
+# jscrape
 A CLI tool written in go to find subdomains and S3 buckets from js files.
 
 ## Installation
 ```
-go install github.com/meispi/subjs@latest
+go install github.com/meispi/jscrape@latest
 ```
 
 ## How to use
@@ -20,21 +20,21 @@ go install github.com/meispi/subjs@latest
 ```
 
 ```
-$ cat jsfiles.txt | subjs -w <target_name>
-$ echo "https://target.tld/somerandomjsfile.js" | subjs -w <target>
+$ cat jsfiles.txt | jscrape -w <target_name>
+$ echo "https://target.tld/somerandomjsfile.js" | jscrape -w <target>
 ```
 
 e.g.:
-`cat jsfiles.txt | subjs -w uber`
+`cat jsfiles.txt | jscrape -w uber`
 
-You can pipe the output of subjs to [httprobe](https://github.com/tomnomnom/httprobe) to filter the domains that resolve.
+You can pipe the output of jscrape to [httprobe](https://github.com/tomnomnom/httprobe) to filter the domains that resolve.
 
 ```
-cat jsfiles.txt | subjs -w uber | httprobe
+cat jsfiles.txt | jscrape -w uber | httprobe
 ```
 
 To look for only s3 buckets in the js files:
 ```
-$ cat jsfiles.txt | subjs -s3
-$ echo "https://target.tld/somerandomjsfile.js" | subjs -s3
+$ cat jsfiles.txt | jscrape -s3
+$ echo "https://target.tld/somerandomjsfile.js" | jscrape -s3
 ```
